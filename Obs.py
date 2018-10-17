@@ -58,28 +58,22 @@ def wysocki(starttime, endtime):
     print('The total accumulated precip at ' + station + ' was ' + str(totalPrecip) + '"')
 def buckley(starttime, endtime):
     # Getting data
-    precip = m.precip(stid='kues, kmsn, kmke', start = starttime, end = endtime, units='precip|in')
-    climate = m.time_stats(stid='kues, kmsn, kmke', start = starttime, end = endtime, type = 'all')
-    KUES_precip = precip['STATION'][2]
-    KMSN_precip = precip['STATION'][1]
-    KMKE_precip = precip['STATION'][0]
-    KUES_climate = climate['STATION'][2]
-    KMSN_climate = climate['STATION'][1]
-    KMKE_climate = climate['STATION'][0]
-    # Waukesha, KUES
-    station = KUES_precip['STID'] # remember we stored the dictionary in the precip variable
-    totalPrecip =  KUES_precip['OBSERVATIONS']['total_precip_value_1']
-    print('The total accumulated precip at ' + station + ' was ' + str(totalPrecip) + '"')
-    print(KUES_climate['STATISTICS']['air_temp_set_1']['maximum'])
-    print(KUES_climate['STATISTICS']['air_temp_set_1']['minimum'])
-    # Lakeshore, KMKE
-    station = KMKE_precip['STID'] # remember we stored the dictionary in the precip variable
-    totalPrecip =  KMKE_precip['OBSERVATIONS']['total_precip_value_1']
-    print('The total accumulated precip at ' + station + ' was ' + str(totalPrecip) + '"')
-    # Madison, KMSN
-    station = KMSN_precip['STID'] # remember we stored the dictionary in the precip variable
-    totalPrecip =  KMSN_precip['OBSERVATIONS']['total_precip_value_1']
-    print('The total accumulated precip at ' + station + ' was ' + str(totalPrecip) + '"')
+    station_list = ["KUES", "KMKE", "KMSN"]
+    for station in station_list:
+        data(station, starttime, endtime)
 
+def data(station, starttime, endtime):
+    precip = m.precip(stid = station, start = starttime, end = endtime, units='precip|in')
+    climate = m.time_stats(stid= station, start = starttime, end = endtime, type = 'all')
+    station_climate = climate['STATION'][0]
+    station_precip = precip['STATION'][0]
+    # station_name = station_precip['STID'] # Storing station name to print
+    totalPrecip = station_precip['OBSERVATIONS']['total_precip_value_1']
+    high_temp_c = station_climate['STATISTICS']['air_temp_set_1']['maximum']
+    low_temp_c = station_climate['STATISTICS']['air_temp_set_1']['minimum']
+    print('The total accumulated precip at ' + station + ' was ' + str(totalPrecip) + '"')
+    print("High: " + str(high_temp_c)) # High of period
+    print("Low: " + str(low_temp_c)) # Low of period
+    print("------")
 if __name__ == "__main__":
     main()
