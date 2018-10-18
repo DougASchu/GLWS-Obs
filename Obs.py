@@ -66,7 +66,7 @@ def data(station, starttime, endtime):
     print("-------")
 
 def temp_f(temp_c):
-    return ((9.0 / 5.0) * temp_c) + 32.0
+    return "{0:.4}".format(str(((9.0 / 5.0) * temp_c) + 32.0)) # Formats to decimal place, converts to F
 
 def currenttime():
     return now.strftime("%Y%m%d%H%M")
