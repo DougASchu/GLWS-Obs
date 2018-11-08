@@ -2,13 +2,14 @@ from MesoPy import Meso
 import datetime
 m = Meso(token='11b5b4f4d04041cead837493576cdecd')
 now = datetime.datetime.now()
+twelve_hours_prior = datetime.datetime.now() - datetime.timedelta(days=0.5)
 
 def main():
     menu_input = ""
     # Time format YYYYMMDDTTTT
     print("Great Lakes Weather Service Data Viewer, written by Douglas Schumacher")
     print("The current date and time is " + now.strftime("%Y-%m-%d %H:%M"))
-    starttime = "201810241800" # 6 PM yesterday (10/24)
+    starttime = twelve_hours_prior.strftime("%Y%m%d%H%M") # Period starts 12 hours prior to current time
     endtime = currenttime() # Period ends at current time
     while menu_input != "q":
         menu_input = input("Enter 1 for Cranberry data, 2 for Wysocki data, and 3 for Buckley Data, or q to quit: ")
